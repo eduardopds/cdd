@@ -1,0 +1,170 @@
+---
+title: "Exploração do Top 200 Spotify Brasil"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+> *As 200 musicas mais tocadas no Brasil. Relatório semanal das faixas mais tocadas no momento. Playlist atualizada todas as sextas-feiras.*
+
+<p align="center">
+
+<img src="data:image/png;base64,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" width="400" height="90"/>
+
+</p>
+
+```{r warning=FALSE, message=FALSE}
+library(tidyverse)
+library(here)
+library(plotly)
+
+theme_set(theme_minimal())
+```
+
+```{r warning=FALSE, message=FALSE}
+# SEMPRE read_csv NUNCA read.csv
+spotify = read_csv(
+    here("data/spotify.csv")
+)
+
+artists = read_csv(
+    here("data/artists.csv")
+)
+```
+
+## Sobre os dados
+
+**Os dados foram coletados, dia 09/10/2021, a partir da Spotify Web API, utilizando a biblioteca para Python [Spotipy](https://spotipy.readthedocs.io/en/2.19.0/). Todo o código utilizado está disponível [aqui](https://colab.research.google.com/drive/1FX4PXA7tZhXa6Zrs1u1czhRSfn9z7oky#scrollTo=2N5Uy4IbpuEB). Os dados podem ser baixados nesse [link](https://drive.google.com/drive/folders/1sIgAyVwO6-HNJRREgZ3BWbJFQVvniinJ?usp=sharing). Cada item nos dados representa uma faixa. As colunas que cada item tem são as seguintes:**
+
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Campo        | Tipo   | Descrição                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
++==============+========+==================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================+
+| track_id     | int    | Identificador da faixa                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| track_name   | chr    | Nome da faixa                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| duration     | double | A duração da faixa em ms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| popularity   | int    | A popularidade de uma faixa é um valor entre 0 e 100, com 100 sendo o mais popular. A popularidade é calculada por algoritmo e é baseada, na maior parte, no número total de reproduções que a faixa teve e quão recentes são essas reproduções. De um modo geral, as músicas que estão sendo muito tocadas agora terão uma popularidade maior do que as músicas que eram tocadas muito no passado. Faixas duplicadas (por exemplo, a mesma faixa de um single e de um álbum) são classificadas de forma independente. A popularidade do artista e do álbum é derivada matematicamente da popularidade da faixa. |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| artist       | chr    | Nome do(s) artista(s) separados por "\|"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| liveness     | double | Detecta a presença de uma audiência na gravação. Valores mais elevados representam uma probabilidade aumentada de que a faixa tenha sido executada ao vivo. Um valor acima de 0,8 fornece forte probabilidade de que a faixa esteja ao vivo.                                                                                                                                                                                                                                                                                                                                                                     |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| dancealibity | double | Descreve como uma faixa é adequada para dançar com base em uma combinação de elementos musicais, incluindo andamento, estabilidade do ritmo, intensidade da batida e regularidade geral. Um valor de 0,0 é menos dançável e 1,0 é mais dançante.                                                                                                                                                                                                                                                                                                                                                                 |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| energy       | double | Energia é uma medida de 0,0 a 1,0 e representa uma medida perceptual de intensidade e atividade. Normalmente, as faixas energéticas parecem rápidas, altas e barulhentas. Por exemplo, death metal tem alta energia, enquanto um prelúdio de Bach tem pontuação baixa na escala. As características perceptivas que contribuem para este atributo incluem faixa dinâmica, intensidade percebida, timbre, taxa de início e entropia geral.                                                                                                                                                                        |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| speachness   | double | Detecta a presença de palavras faladas em uma faixa. Quanto mais exclusivamente falada for a gravação (por exemplo, talk show, audiolivro, poesia), mais próximo de 1,0 será o valor do atributo. Valores acima de 0,66 descrevem faixas que provavelmente são compostas inteiramente de palavras faladas. Valores entre 0,33 e 0,66 descrevem faixas que podem conter música e fala, em seções ou em camadas, incluindo casos como música rap. Valores abaixo de 0,33 provavelmente representam música e outras faixas não semelhantes à fala.                                                                  |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| acousticness | double | Uma medida de confiança de 0,0 a 1,0 para saber se a faixa é acústica. 1.0 representa alta confiança de que a faixa é acústica                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| valence      | double | Uma medida de 0,0 a 1,0 que descreve a positividade musical transmitida por uma faixa. Faixas com alta valência soam mais positivas (por exemplo, feliz, alegre, eufórico), enquanto faixas com baixa valência soam mais negativas (por exemplo, triste, deprimido, com raiva).                                                                                                                                                                                                                                                                                                                                  |
++--------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+## Conhecendo os dados
+
+**Primeiramente, observando os 15 artistas que mais aparecem no Top 200 Brasil, percebemos um domínio de homens e artistas que cantam sertanejo e piseiro.**
+
+
+```{r}
+artists = artists %>% group_by(nome) %>% summarise(
+    contagem = n())
+
+top15<-artists[rev(order(artists$contagem))[1:15],]
+```
+
+```{r}
+top15 %>% ggplot(aes(x=contagem,y=reorder(nome,contagem))) +
+  geom_bar(fill='#1ed65f',alpha=0.8,stat ="identity") +
+  labs(
+    y="",
+    x="Aparições",
+    title="15 artistas com mais músicas no Top 200 Spotify Brasil"
+  ) + scale_x_continuous(breaks=c(2,4,6,8,10))
+
+
+```
+
+**Verificando o gráfico da distribuição de popularidade, observamos uma distribuição assimétrica com uma cauda longa para esquerda e com uma grande concentração próximo a 75. Apresentando poucas faixas com popularidade muito baixa.**
+
+
+```{r}
+spotify %>%
+  ggplot(aes(x=popularity)) +
+  geom_bar(fill='#1ed65f',alpha=0.6) +
+  labs(
+    y="",
+    x="Popularidade",
+    title="Distribuição de popularidade do Top 200"
+  )
+```
+
+**Como observado no gráfico abaixo, as faixas têm, em grande maioria, até 200 segundos de duração. A distribuição é assimétrica, concentrada em valores mais baixos e apresenta uma cauda longa para direita. Ao conferir as faixas que ultrapassam 600 segundos na base, concluimos que as duas faixas mais longas pertecem ao grupo Poesia Acústica.**
+
+
+```{r}
+spotify %>% mutate(duration_segundos = duration * 0.001) %>%
+  ggplot(aes(x=duration_segundos)) +
+  geom_histogram(bins = 30,fill='#1ed65f',alpha=0.6) +
+  labs(
+    y="",
+    x="Duração (em segundos)",
+    title="Distribuição de duração das faixas do Top 200 Brasil"
+  )
+```
+
+
+**Logo abaixo, observamos a distribuição de mais algumas varíaveis utilizando boxplots.**
+
+**Nesse primeiro boxplot, podemos concluir que a distribuição da varíavel energy não é simétrica e apresenta uma mediana de 0.741, indicando que as faixas do top 200 Brasil são, em geral, bem energéticas. Também apresenta alguns pontos extremos, são elas: Happier Than Ever da Billie Eilish e Alívio de Jessé Aguiar.**
+
+```{r}
+spotify %>% ggplot(aes(x="",y=energy)) + geom_boxplot(outlier.color = "red",alpha=0.4,fill='#1ed65f',color="#0a8d73",outlier.size=2,outlier.fill ="red", width=0.2) + labs(title="Boxplot Energy",x="")
+
+```
+
+**Quanto a danceability, no gráfico abaixo, temos uma distribuição quase simétrica com um mediana de 0.6705, indicando que as faixas do Top 200 Spotify tendem a serem dançantes.Também apresenta alguns pontos extremos, são elas: Happier Than Ever da Billie Eilish e A Maior Saudade - Ao Vivo de Henrique & Juliano.**
+
+```{r}
+spotify %>% ggplot(aes(x="",y=danceability)) + geom_boxplot(outlier.color = "red",alpha=0.4,fill='#1ed65f',color="#0a8d73",outlier.size=2,outlier.fill ="red",width=0.2 ) + labs(title="Boxplot Danceability",x="")
+```
+
+**No gráfico abaixo, podemos concluir que a distribuição da varíavel acousticness é simétrica e apresenta uma mediana de 0.3555, indicando que a presença de faixas acústicas no Top 200 Brasil no Spotify é baixa. Não apresenta pontos extremos.**
+
+```{r}
+spotify %>% ggplot(aes(x="", y=acousticness)) + geom_boxplot(outlier.color = "red",alpha=0.4,fill='#1ed65f',color="#0a8d73",outlier.size=2,outlier.fill ="red",width=0.2 ) + labs(title="Boxplot Acousticness", x="")
+```
+
+# Agrupamento
+
+**Aqui usaremos o k-means para agrupar as faixas utilizando as varíaveis danceability e popularity. Logo abaixo, podemos visualizar interativamente o resultado.**
+
+```{r}
+
+spotify_numerical = spotify %>% select("danceability","popularity")
+spotify_numerical_norm <- as.data.frame(scale(spotify_numerical))
+
+```
+
+```{r}
+set.seed(445)
+# Execution of k-means with k=3
+
+spotify_kmeans <- kmeans(spotify_numerical_norm, centers=5)
+spotify$grupo <- as.character(spotify_kmeans$cluster)
+fig <- plot_ly(data = spotify,type="scatter",mode="markers", size=12,x = ~danceability, y = ~popularity, color = ~grupo, text = ~paste("Track: ", track_name, '<br>Popularity:', popularity,'<br>Artists:', artist))
+fig <- fig %>% layout(legend = list(x = 0.05, y = 0.95,title=list(text='<b>  Grupo </b>')))
+fig
+```
+**Conclusões**: 
+
+**Grupo 1**: Faixas pouco dançantes e populares predominam nesse grupo. Exemplos pertencentes a este grupo: traitor, dejavu e drivers license u da Olivia Rodrigo e penhasco da Luiza Sonza.
+
+**Grupo 2**: Possuem uma grande variação quanto a danceability, porém possuem uma alta popularidade. São exemplos desse grupo: Meu Pedaço de Pecado do João Gomes, INDUSTRY BABY do Lil Nas X e Woman da Doja Cat.
+
+**Grupo 3**: Nesse grupo, temos faixas com boa popularidade (em torno de 70) e alta danceability. Have Mercy da Chroe e Deixa de Onda - DENNIS são alguns exemplos desse grupo.
+
+**Grupo 4**: Pertecem a esse grupo faixas não populares e pouco dançantes. Exemplos desse grupo: Sonho por Sonho do Belo e Deu Bom do Grupo K.O.
+
+**Grupo 5:** Faz parte desse grupo músicas de médio pra bem dançantes e com uma boa popularidade (girando em torno de 70). VIP *-* e MULHER DO ANO XD da Luiza Sonza são exemplos de faixas pertencentes a esse grupo.

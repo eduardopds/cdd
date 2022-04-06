@@ -1,0 +1,11 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/788367/9fb262c1543d4b9391c5607d2048ebe2
+bundleId: https://api.rpubs.com/api/v1/document/788367/9fb262c1543d4b9391c5607d2048ebe2
+url: http://rpubs.com/eduardopds/788367
+when: 1625700161.31727
+lastSyncTime: 1625700161.31727
